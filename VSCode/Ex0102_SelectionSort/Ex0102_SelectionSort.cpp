@@ -9,15 +9,27 @@ struct Element
 	int key;
 	char value;
 };
+void SwapValue (int &i, int &j)
+{
+	if (i > j){
+		int tmp = i;
+		i = j;
+		j = tmp;
+	}
+}
 
 bool CheckSorted(int* arr, int size)
 {
 	// TODO: 정렬 확인 함수 구현
-
+	for (int i = 0; i < size - 1; i++)
+		for (int j = i+1; j < size; j++)
+			if (arr[i] > arr[j])
+				return false;
 	return true;
 }
 
 void Print(int* arr, int size)
+
 {
 	for (int i = 0; i < size; i++)
 		cout << arr[i] << " ";
@@ -53,6 +65,10 @@ int main()
 					cout << " -> " << flush;
 
 					//TODO: 정렬 해보기
+					for (int i = 0; i < size - 1; i++)
+						for (int j = i + 1; j < size; j++)
+							SwapValue(arr[i], arr[j]);
+
 
 					for (int e = 0; e < size; e++) {
 						cout << arr[e] << " " << flush;
@@ -64,7 +80,6 @@ int main()
 				}
 	}
 
-	return 0; // <- 실습용 임시
 
 	// 5개라면? 더 많다면?
 	{
@@ -85,8 +100,12 @@ int main()
 		assert(size > 0); // size가 1이상이라고 가정
 
 		// TODO:
+		int min_number = arr[0];
+		for (int i = 1; i < size; i++)
+			if (min_number > arr[i])
+				min_number = arr[i];
 
-		// cout << "Minimum number is " << min_number << endl;
+		cout << "Minimum number is " << min_number << endl;
 	}
 
 	// 가장 작은 수의 인덱스 찾기
@@ -97,9 +116,13 @@ int main()
 		assert(size > 0); // size가 1이상이라고 가정
 
 		// TODO:
+		int min_index = 0;
+		for (int i = 1; i <size; i++)
+			if (arr[min_index] > arr[i])
+				min_index = i;
 
-		//cout << "The index of min is " << min_index << endl;
-		//cout << "Minimum number is " << arr[min_index] << endl;
+		cout << "The index of min is " << min_index << endl;
+		cout << "Minimum number is " << arr[min_index] << endl;
 	}
 
 	// Selection Sort
@@ -113,6 +136,10 @@ int main()
 		{
 
 			// TODO:
+			min_index = i;
+			for (int j = i+1; j < size; j++)
+				min_index = arr[min_index] > arr[j] ? j : min_index;
+			swap(arr[i], arr[min_index]);
 
 			Print(arr, size);
 
@@ -134,7 +161,18 @@ int main()
 				arr[s] = size - s;
 			}
 
-			//TODO: count ++;
+			//TODO:
+			int min_index;
+			for (int i = 0; i < size - 1; i++)
+			{
+				min_index = i;
+				for (int j = i+1; j < size; j++)
+				{
+					count++;
+					min_index = arr[min_index] > arr[j] ? j : min_index;
+				}
+				swap(arr[i], arr[min_index]);
+			}
 
 			//cout << size << ", " << count << endl;
 			ofile << size << ", " << count << endl;
@@ -157,7 +195,17 @@ int main()
 		Print(arr, size); // arr이 Element의 배열
 
 		// TODO:
+		int min_index;
+		for (int i = 0; i < size - 1; i++)
+		{
+			min_index = i;
+			for (int j = i+1; j < size; j++)
+				min_index = arr[min_index].key > arr[j].key ? j : min_index;
+			swap(arr[i], arr[min_index]);
+		}
 
 		Print(arr, size); // arr이 Element의 배열
 	}
+	return 0; // <- 실습용 임시
+
 }
