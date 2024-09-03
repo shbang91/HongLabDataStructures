@@ -398,3 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 doctest-output/
+VSCode/Ex0104_InsertionSort/Ex0104_InsertionSort
+VSCode/Ex0103_BubbleSort/Ex0103_BubbleSort
+VSCode/Ex0102_SelectionSort/Ex0102_SelectionSort
+VSCode/Ex0101_Swap/Ex0101_Swap.dSYM/Contents/Resources/DWARF/Ex0101_Swap
+VSCode/Ex0101_Swap/Ex0101_Swap.dSYM/Contents/Info.plist
