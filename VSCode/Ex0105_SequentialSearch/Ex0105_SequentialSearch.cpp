@@ -60,23 +60,46 @@ int main()
 int Count(int* arr, int n, int x)
 {
 	// TODO:
+	int counter(0);
+	for (int i(0); i < n; i++)
+	{
+		if (arr[i] == x)
+			counter++;
+	}
 
-	return 0;
+	return counter;
 }
 
 // 배열 arr에 x가 있으면 index 반환, 없으면 -1 반환
 int SequentialSearch(int* arr, int n, int x)
 {
 	// TODO:
+	int index(-1);
+	for (int i(0); i < n; i++)
+	{
+		if (arr[i] == x)
+		{
+			index = i;
+			break;
+		}
+	}
 
-	return -1;
+	return index;
 }
 
 int SortedCountHelper(int* arr, int n, int x, int start) // start 사용
 {
-	// TODO: 
+	// TODO:
+	int counter(0);
+	for (int i(start); i < n; i++)
+	{
+		if (arr[i] == x)
+			counter++;
+		else
+			break; // early termination
+	} 
 
-	return 0;
+	return counter;
 }
 
 int SortedCount(int* arr, int n, int x)
