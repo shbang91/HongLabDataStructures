@@ -21,11 +21,11 @@ void RecurFunc(int count)
 	if (count == 0) // <- 종료 조건
 		return;
 
-	// RecurFunc(count - 1); // <- 변경
+	RecurFunc(count - 1); // <- 변경
 
 	cout << count << endl;
 
-	RecurFunc(count - 1); // <- 변경
+	// RecurFunc(count - 1); // <- 변경
 
 	// 실행 위치에 따라 결과가 달라집니다.
 }

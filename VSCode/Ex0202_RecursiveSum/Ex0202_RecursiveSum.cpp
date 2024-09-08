@@ -23,7 +23,15 @@ int RecurSum(int* arr, int n)
 	= ...
 	*/
 
-	return 0; // <- TODO: 
+	// termination conditions
+	if (n <= 0)
+		return 0;
+	
+	// change
+	int sum = arr[n-1];
+	sum += RecurSum(arr, n-1);
+
+	return sum; // <- TODO: 
 }
 
 int main()
