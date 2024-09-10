@@ -39,6 +39,10 @@ float SparsePolynomial::Eval(float x)
 	float temp = 0.0f;
 
 	// TODO:
+	for (int i(0); i < num_terms_; i++)
+	{
+		temp += terms_[i].coef * std::powf(x, float(terms_[i].exp));
+	}
 
 	return temp;
 }
@@ -57,6 +61,34 @@ SparsePolynomial SparsePolynomial::Add(const SparsePolynomial& poly)
 	SparsePolynomial temp;
 
 	// TODO:
+	int i(0);
+	int j(0);
+
+	while (i < num_terms_ && j < poly.num_terms_)
+	{
+			if (terms_[i].exp == poly.terms_[j].exp)
+			{
+				temp.NewTerm(terms_[i].coef + poly.terms_[j].coef, terms_[i].exp);
+				i++;
+				j++;
+			} else if (terms_[i].exp < poly.terms_[j].exp){
+				temp.NewTerm(terms_[i].coef, terms_[i].exp);
+				i++;
+			} else {
+				temp.NewTerm(poly.terms_[j].coef, poly.terms_[j].exp);
+				j++;
+			}
+	}
+
+	for (; i < num_terms_; i++)
+	{
+		temp.NewTerm(terms_[i].coef, terms_[i].exp);
+	}
+
+	for (; j < poly.num_terms_; j++)
+	{
+		temp.NewTerm(poly.terms_[j].coef, poly.terms_[j].exp);
+	}
 
 	return temp;
 }
