@@ -56,12 +56,17 @@ void RecurMaze(Pos p)
 
 	// 방문했던 적이 없고 ('X'가 아니고)
 	// 벽도 아닌 경우 ('1'도 아닌 경우)
-	// if (...)
-	//{
+	if (mark != 'X' && mark != '1')
+	{
 		// 'X' 표시
+		maze[p.row][p.col] = 'X';
 
 		// 옆으로 이동
-	//}
+		RecurMaze({p.row, p.col - 1});
+		RecurMaze({p.row - 1, p.col});
+		RecurMaze({p.row, p.col + 1});
+		RecurMaze({p.row + 1, p.col});
+	}
 }
 
 //조기 종료가 가능한 버전
@@ -99,6 +104,15 @@ void StackMaze()
 		}
 
 		// TODO:
+		if (mark != 'X' && mark != '1')
+		{
+			maze[p.row][p.col] = 'X';
+
+			s.Push({p.row + 1, p.col});
+			s.Push({p.row, p.col + 1});
+			s.Push({p.row - 1, p.col});
+			s.Push({p.row, p.col - 1});
+		}
 	}
 }
 
@@ -106,9 +120,9 @@ int main()
 {
 	PrintMaze();
 
-	//RecurMaze({ 1, 1 });
+	RecurMaze({ 1, 1 });
 
-	StackMaze();
+	// StackMaze();
 
 	PrintMaze();
 

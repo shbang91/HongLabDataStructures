@@ -46,11 +46,21 @@ void MoveDisk(int from, int to)
 void RecurMoveDisks(int n, int from, int temp, int to)
 {
 	// TODO:
+	// termination condition
+	if (n == 0)
+		return;
+
+	// Do stuff
+	RecurMoveDisks(n-1, from, to, temp);
+
+	MoveDisk(from, to);
+
+	RecurMoveDisks(n-1, temp, from, to);
 }
 
 int main()
 {
-	int num_disks = 5;
+	int num_disks = 4;
 
 	for (int i = 0; i < num_disks; i++)
 		tower[0].Push('A' + i);
