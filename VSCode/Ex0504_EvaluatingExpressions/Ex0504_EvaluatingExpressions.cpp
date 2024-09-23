@@ -78,22 +78,35 @@ void InfixToPostfix(Queue<char>& q, Queue<char>& output)
 
 		cout << c << endl;
 
-		/*
+		
 		if (c >= '0' && c <= '9') // 숫자(피연산자)라면 output에 추가
-			...;
+			output.Enqueue(c);
 		else if (c == '(') // 여는 괄호라면 스택에 추가
-			...;
+			s.Push(c);
 		else if (c == ')') // 닫는 괄호를 만나면
 		{
 			// 여는 괄호 전까지를 스택에서 꺼내서 출력에 넣기
+			while (s.Top() != '(')
+			{
+				char stack_c = s.Top();
+				s.Pop();
+				output.Enqueue(stack_c);
+			}
 			// 여는 괄호 제거
+			s.Pop();
 		}
 		else // 연산자를 만나면
 		{
 			// 스택에서 c보다 우선순위가 높거나 같은 것들을 꺼내서 추가
+			if (!s.IsEmpty() && Prec(s.Top()) >= Prec(c))
+			{
+				char stack_c = s.Top();
+				s.Pop();
+				output.Enqueue(stack_c);
+			}
 			// c는 스택에 추가
+			s.Push(c);
 		}
-		*/
 
 		cout << "Stack: ";
 		s.Print();
@@ -121,39 +134,43 @@ int EvalPostfix(Queue<char>& q)
 
 		cout << c << endl;
 
-		/*
 		if (c != '+' && c != '-' && c != '*' && c != '/')
 		{
 			// 입력이 연산자가 아니면 일단 저장
 			// 문자를 숫자로 변환 c - '0' 예: int('9' - '0') -> 정수 9
+			s.Push(c-'0');
 		}
 		else
 		{
 			cout << "Operator: " << c << endl;
 
 			// 입력이 연산자이면 스택에서 꺼내서 연산에 사용
+			int op2 = s.Top();
+			s.Pop();
+			int op1 = s.Top();
+			s.Pop();
+			int result;
 
 			if (c == '+') {
-				...
+				result = op1 + op2;
 			}
 			else if (c == '-') {
-				...
+				result = op1 - op2;
 			}
 			else if (c == '*') {
-				...
+				result = op1 * op2;
 			}
 			else if (c == '/')
 			{
-				...
+				result = op1 / op2;
 			}
 			else
 			{
 				cout << "Wrong operator" << endl;
 				exit(-1); // 강제 종료
 			}
+			s.Push(result);
 		}
-		*/
-
 		cout << "Stack: ";
 		s.Print();
 	}

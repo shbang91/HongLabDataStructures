@@ -6,7 +6,7 @@ int main()
 {
 	// FIFO(First In First Out)
 
-	Queue<char> q(2); // capacity_ = 2에서 시작 (메모리 증가 확인)
+	Queue<char> q(8); // capacity_ = 2에서 시작 (메모리 증가 확인)
 
 	q.SetDebugFlag(true);
 

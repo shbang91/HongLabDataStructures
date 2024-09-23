@@ -52,18 +52,18 @@ public:
 		// 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
 		// if-else-if-else로 구현하는 경우
-		//if (...)
-		//	return ...;
-		//else if (...)
-		//	return ...;
-		//else
-		//	return 0;
+		if (rear_ < front_)
+			return rear_ + capacity_ - front_;
+		else if (rear_ > front_)
+			return rear_ - front_;
+		else
+			return 0;
 
 		// 또는 if-else 하나로도 구현 가능합니다.
-		// if (...)
-		//	  return ...;
+		// if (rear_ >= front_)
+		//	  return rear_ - front_;
 		// else
-		//    return ...;
+		//    return rear_ + capacity_ - front_;
 
 		return 0; // TODO: 임시
 	}
@@ -79,6 +79,20 @@ public:
 
 		// TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다. 
 		//       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
+		
+		T* new_queue = new T[2*capacity_];
+		if (front_ <= rear_)
+			memcpy(&new_queue[front_+1], &queue_[front_+1], sizeof(T) * Size());
+		else{
+			memcpy(new_queue, queue_, sizeof(T) * (rear_ + 1)); // from 0 to rear_	
+			memcpy(&new_queue[front_+1+capacity_], &queue_[front_+1], sizeof(T) * (capacity_ - front_ - 1)); // from front_ + 1 to capacity - 1 index
+			front_ = front_ + capacity_;
+		}
+		if (queue_) delete[] queue_;
+		queue_ = new_queue;
+		capacity_ *= 2;
+
+
 	}
 
 	void Enqueue(const T& item) // 맨 뒤에 추가, Push()
@@ -87,6 +101,9 @@ public:
 			Resize();
 
 		// TODO:
+		rear_ = (rear_ + 1) % capacity_;
+		queue_[rear_] = item; 
+		
 	}
 
 	void Dequeue() // 큐의 첫 요소 삭제, Pop()
@@ -94,6 +111,8 @@ public:
 		assert(!IsEmpty());
 
 		// TODO: 
+		front_ = (front_ + 1) % capacity_;
+
 	}
 
 	void Print()
@@ -174,7 +193,7 @@ public:
 	}
 
 protected: // 뒤에서 상속해서 사용
-	T* queue_; // array for queue elements
+	T* queue_ = nullptr; // array for queue elements
 	int front_ = 0; // 시작 인덱스보다 하나 작은 값
 	int rear_ = 0; // 마지막 인덱스 (첫 값은 1에 추가)
 	int capacity_; // 빈 칸을 하나 둬야 하기 때문에 필요 메모리는 최대 저장량 + 1
