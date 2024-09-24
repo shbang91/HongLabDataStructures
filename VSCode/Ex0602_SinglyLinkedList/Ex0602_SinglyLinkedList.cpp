@@ -8,7 +8,7 @@ int main()
 {
 	SinglyLinkedList<int> list;
 
-	list.SetPrintDebug(false);
+	list.SetPrintDebug(true);
 
 	list.PushFront(3);
 	list.PushBack(4);
@@ -21,7 +21,7 @@ int main()
 	// copy constructor
 	{
 		SinglyLinkedList<int> list2 = list; // copy constructor
-		list2.SetPrintDebug(false);
+		list2.SetPrintDebug(true);
 		list2.Print();
 	}
 
@@ -40,11 +40,11 @@ int main()
 	// PopFront()/Back() 테스트
 	for (int i = 0; i < 5; i++)
 	{
-		//list.PopFront();
-		//list.Print();
-
-		list.PopBack();
+		list.PopFront();
 		list.Print();
+
+		// list.PopBack();
+		// list.Print();
 
 		if (!list.IsEmpty())
 			cout << list.Front() << " " << list.Back() << endl;

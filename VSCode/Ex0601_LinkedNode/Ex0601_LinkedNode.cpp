@@ -9,7 +9,7 @@ struct Node
 
 	friend ostream& operator<<(ostream& os, const Node& n)
 	{
-		cout << n.item << " " << flush;
+		cout << &n << " " << n.item << " " << n.next << flush;
 		return os;
 	}
 };
@@ -17,11 +17,30 @@ struct Node
 void RecurPrint(Node* node)
 {
 	// TODO:
+	if (node == nullptr)
+		return;
+	
+	cout << *node << endl;
+	RecurPrint(node->next);
+
+	// alternative way
+	/*
+	if (node)
+	{
+		RecurPrint(node->next);
+		cout << *node << endl; // print 5, 4, 3, 2, 1 in reverse order
+	}
+	*/
 }
 
 void IterPrint(Node* node)
 {
 	// TODO:
+	while(node != nullptr)
+	{
+		cout << *node << endl;
+		node = node->next;
+	}
 }
 
 int main()
@@ -63,37 +82,56 @@ int main()
 	cout << endl;
 
 	// 연결 관계 만들어 주기
-	// first->next = second;
 	// TODO:
-	// 마지막
+	first->next = second;
+	second->next = third;
+	third->next = fourth;
+	fourth->next = fifth;
+	fifth->next = nullptr;// 마지막
 
-	//cout << *(first) << endl;
-	//cout << *(first->next) << endl;
-	//cout << *(first->next->next) << endl;
-	//cout << *(first->next->next->next) << endl;
-	//cout << *(first->next->next->next->next) << endl;
+	cout << *(first) << endl;
+	cout << *(first->next) << endl;
+	cout << *(first->next->next) << endl;
+	cout << *(first->next->next->next) << endl;
+	cout << *(first->next->next->next->next) << endl;
 	//// cout << *(first->next->next->next->next->next) << endl; // 오류
 
 	cout << endl;
 
 	// 임시 변수 사용
-	//{
-	//	Node* current = first;
-	//	cout << *current << endl;
+	{
+		Node* current = first;
+		cout << *current << endl;
 
-	// TODO:
-	//	cout << endl;
-	//}
+		for (int i(0); i < 4; ++i)
+		{
+			current = current->next;
+			cout << *current << endl;
+		}
+
+	//TODO:
+		cout << endl;
+	}
 
 	// 재귀 호출 이용
-	//RecurPrint(first);
-	//cout << endl;
+	cout << "Recursive Print" << endl;
+	RecurPrint(first);
+	cout << endl;
 
 	// 반복문 이용
-	//IterPrint(first);
-	//cout << endl;
+	cout << "Iterative Print" << endl;
+	IterPrint(first);
+	cout << endl;
 
 	// TODO: 데이터 삭제
+	Node *current = first;
+
+	while (current)
+	{
+		Node *tmp = current;
+		current = current->next;
+		delete tmp;
+	}
 
 	return 0;
 }

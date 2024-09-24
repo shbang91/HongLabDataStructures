@@ -17,6 +17,8 @@ public:
 	void NewTerm(float coef, int exp)
 	{
 		// TODO:
+		Term term{coef, exp};
+		this->PushBack(term);
 	}
 
 	float Eval(float x)
@@ -24,6 +26,12 @@ public:
 		float temp = 0.0f;
 
 		// TODO:
+		Node *current = this->first_;
+		while(current)
+		{
+			temp += current->item.coef * std::pow(x, float(current->item.exp));
+			current = current->next;
+		}
 
 		return temp;
 	}
@@ -39,6 +47,35 @@ public:
 		Node* j = poly.first_;
 
 		// TODO:
+		while (i && j)
+		{
+			if (i->item.exp == j->item.exp)
+			{
+				temp.NewTerm(i->item.coef + j->item.coef, i->item.exp);
+				i = i->next;
+				j = j->next;
+			}
+			else if (i->item.exp < j->item.exp)
+			{
+				temp.NewTerm(i->item.coef, i->item.exp);
+				i = i->next;
+			}
+			else{
+				temp.NewTerm(j->item.coef, j->item.exp);
+				j = j->next;
+			}
+		}
+
+		while(i)
+		{
+			temp.NewTerm(i->item.coef, i->item.exp);
+			i = i->next;
+		}
+		while(j)
+		{
+			temp.NewTerm(j->item.coef, j->item.exp);
+			j = j->next;
+		}
 
 		return temp;
 	}
@@ -48,6 +85,19 @@ public:
 		bool is_first = true; // 더하기 출력시 확인용
 
 		// TODO:
+		Node *current = this->first_;
+		while(current)
+		{
+			if (!is_first)
+				cout << " + ";
+			if (current->item.exp != 0)
+				cout << current->item.coef << "*x^" << current->item.exp;
+			else
+				cout << current->item.coef;
+			is_first = false;
+			current = current->next;
+		}
+
 
 		cout << endl;
 	}
