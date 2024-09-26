@@ -71,7 +71,18 @@ public:
 
 	int Sum(Node* node)
 	{
-		return 0; // TODO:
+		if (!node)
+			return 0;
+		int sum = node->item;
+		if (node->left)
+			sum += Sum(node->left);
+		if (node->right)
+			sum += Sum(node->right);
+
+		// alternative
+		// return node->item + Sum(node->left) + Sum(node->right);
+		
+		return sum; // TODO:
 	}
 
 	int Height()
@@ -81,7 +92,18 @@ public:
 
 	int Height(Node* node)
 	{
-		return 0; // TODO:
+		int left_height(1);
+		int right_height(1);
+		if (node->left)
+		{
+			left_height += Height(node->left);
+		}
+		if (node->right)
+		{
+			right_height += Height(node->right);
+		}
+		
+		return left_height >= right_height ? left_height : right_height; // TODO:
 	}
 
 	~BinaryTree()
@@ -94,28 +116,62 @@ public:
 		if (node)
 		{
 			// TODO: 힌트 Post-order
+			DeleteTree(node->left);
+			DeleteTree(node->right);
+			std::cout << "delete node " << node->item << std::endl;
+			delete node;
 		}
 	}
 
 	void Preorder() { Preorder(root_); }
 	void Preorder(Node* node)
-	{
+	{	
 		// TODO:
+		if (node){
+		// 1. root
+		Visit(node);
+		// 2. left
+		Preorder(node->left);
+		// 3. right
+		Preorder(node->right);
+		}
+
 	};
 
 	void Inorder() { Inorder(root_); }
 	void Inorder(Node* node)
 	{
 		// TODO:
+		if (node){
+		// 1. left
+		Inorder(node->left);
+
+		// 2. print
+		Visit(node);
+		
+		// 3. right
+		Inorder(node->right);
+		}
+
 	}
 
 	void Postorder() { Postorder(root_); }
 	void Postorder(Node* node)
 	{
 		// TODO:
+		if (node){
+		// 1. left	
+		Postorder(node->left);
+
+		// 2. right
+		Postorder(node->right);
+
+		// 3. print
+		Visit(node);
+		}
 	}
 
-	void LevelOrder()
+	void LevelOrder() // *********************!!!!!!!!!!!!!Review!!!!!!!!!!!!!!*************************
 	{
 		Queue<Node*> q; // 힌트: MyQueue q;
 		Node* current = root_;
@@ -123,6 +179,14 @@ public:
 		{
 			Visit(current);
 			// TODO:
+			if(current->left)
+				q.Enqueue(current->left);
+			if(current->right)
+				q.Enqueue(current->right);
+			if(q.IsEmpty()) return;
+
+			current = q.Front();
+			q.Dequeue();
 		}
 	}
 
@@ -136,6 +200,17 @@ public:
 		while (!s.IsEmpty())
 		{
 			// TODO:
+			Node* current = s.Top();
+			s.Pop();
+
+			Visit(current);
+
+			if(current->right)
+				s.Push(current->right);
+			if(current->left)
+				s.Push(current->left);
+
+
 		}
 	}
 
@@ -149,6 +224,17 @@ public:
 		while (current || !s.IsEmpty())
 		{
 			// TODO:
+			while(current)
+			{
+				s.Push(current);
+				current = current->left;
+			}
+			current = s.Top();
+			s.Pop();
+
+			Visit(current);
+
+			current = current->right;
 		}
 	}
 
@@ -162,11 +248,24 @@ public:
 		while (!s1.IsEmpty())
 		{
 			// TODO:
+			Node* node = s1.Top();
+			s1.Pop();
+
+			s2.Push(node);
+
+			if(node->left)
+				s1.Push(node->left);
+			if(node->right)
+				s1.Push(node->right);
 		}
 
 		while (!s2.IsEmpty())
 		{
 			// TODO:
+			Node* node = s2.Top();
+			s2.Pop();
+
+			Visit(node);
 		}
 	}
 

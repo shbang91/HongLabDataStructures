@@ -59,7 +59,7 @@ int main()
 	cout << endl;
 
 	cout << "LevelOrder" << endl; // 6 2 5 1 4 3
-	tree.LevelOrder();
+	tree.LevelOrder(); 
 	cout << endl;
 
 	cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
