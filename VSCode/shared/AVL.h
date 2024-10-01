@@ -37,15 +37,21 @@ public:
 	Node* RotateLeft(Node* parent)
 	{
 		// TODO:
+		Node* child = parent->right;
+		parent->right = child->left;
+		child->left = parent;
 
-		return nullptr;
+		return child;
 	}
 
 	Node* RotateRight(Node* parent)
 	{
 		// TODO:
+		Node* child = parent->left;
+		parent->left = child->right;
+		child->right = parent;
 
-		return nullptr;
+		return child;
 	}
 
 	void Insert(const Item& item)
@@ -75,24 +81,30 @@ public:
 		// balance가 0, 1, -1 이면 조절할 필요가 없다고 판단
 
 		// LL -> Right Rotation
-		//if (balance > 1 && Balance(node->left) >= 0)
+		if (balance > 1 && Balance(node->left) >= 0)
 		//	TODO:
+			return RotateRight(node);
 
 		// RR -> Left Rotation
-		//if (balance < -1 && Balance(node->right) <= 0)
+		if (balance < -1 && Balance(node->right) <= 0)
 		//	TODO:
+			return RotateLeft(node);
 
 		// LR -> Left-Right Rotation
-		//if (balance > 1 && Balance(node->left) < 0)
-		//{
+		if (balance > 1 && Balance(node->left) < 0)
+		{
 		//	TODO:
-		//}
+			node->left = RotateLeft(node->left);
+			return RotateRight(node);
+		}
 
 		// RL -> Right-Left Rotation
-		//if (balance < -1 && Balance(node->right) > 0)
-		//{
+		if (balance < -1 && Balance(node->right) > 0)
+		{
 		//	TODO:
-		//}
+			node->right = RotateRight(node->right);
+			return RotateLeft(node);
+		}
 
 		return node;
 	}
@@ -149,6 +161,31 @@ public:
 		int balance = Balance(node);
 
 		// TODO:
+		// LL -> Right Rotation
+		if (balance > 1 && Balance(node->left) >= 0)
+		//	TODO:
+			return RotateRight(node);
+
+		// RR -> Left Rotation
+		if (balance < -1 && Balance(node->right) <= 0)
+		//	TODO:
+			return RotateLeft(node);
+
+		// LR -> Left-Right Rotation
+		if (balance > 1 && Balance(node->left) < 0)
+		{
+		//	TODO:
+			node->left = RotateLeft(node->left);
+			return RotateRight(node);
+		}
+
+		// RL -> Right-Left Rotation
+		if (balance < -1 && Balance(node->right) > 0)
+		{
+		//	TODO:
+			node->right = RotateRight(node->right);
+			return RotateLeft(node);
+		}
 
 		return node;
 	}

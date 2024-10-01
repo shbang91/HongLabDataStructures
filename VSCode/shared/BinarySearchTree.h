@@ -78,7 +78,16 @@ public:
 	Item* IterGet(const K& key)
 	{
 		// TODO:
-
+		Node* current = root_;
+		while(current)
+		{
+			if (current->item.key == key)
+				return &current->item;
+			if (current->item.key > key)
+				current = current->left;
+			if (current->item.key < key)
+				current = current->right;
+		}
 		return nullptr; // No matching
 	}
 
@@ -86,14 +95,26 @@ public:
 	{
 		using namespace std;
 		cout << "Insert " << item.key << item.value << endl;
+		if (root_)
+			cout << "Before: " << root_->item.key << endl;
 		root_ = Insert(root_, item);
+		if (root_)
+			cout << "After: " << root_->item.key << endl;
 	}
 
-	Node* Insert(Node* node, const Item& item)
+	Node* Insert(Node* node, const Item& item) // *************!!!!!!!!REVIEW!!!!!!!!********
 	{
 		// 힌트: RecurGet()
 
 		// TODO:
+		if (!node)
+			return new Node{item, nullptr, nullptr};
+		if (node->item.key < item.key)
+			node->right = Insert(node->right, item);
+		else if (node->item.key > item.key)
+			node->left = Insert(node->left, item);
+		else
+			node->item = item;
 
 		return node;
 	}
@@ -101,6 +122,35 @@ public:
 	void IterInsert(const Item& item)
 	{
 		// TODO:
+		Node* current = root_;
+		Node* save = nullptr;
+		while(current)
+		{
+			save = current;
+			// update current and check
+			if (current->item.val > item.val)
+				current = current->left;
+			else if (current->item.val < item.val)
+				current = current->right;
+			else{
+				current->item = item;
+				return;
+			}
+		}
+
+		// add Node
+		current = new Node{item, nullptr, nullptr};
+
+		// root
+		if (root_)
+		{
+				if(save->item.key > item.key)
+					save->left = current;
+				else
+					save->right = current;
+		} else
+			root_ = current;
+
 	}
 
 	Node* MinKeyLeft(Node* node)
@@ -118,7 +168,7 @@ public:
 		root_ = Remove(root_, key);
 	}
 
-	Node* Remove(Node* node, const K& key)
+	Node* Remove(Node* node, const K& key) // ********!!!!!Review!!!!!!!!*********
 	{
 		if (!node) return node;
 
@@ -129,6 +179,21 @@ public:
 		else
 		{
 			// TODO:
+			if(!node->left)
+			{
+				Node* tmp = node->right;
+				delete node;
+				return tmp;
+			}
+			else if(!node->right)
+			{
+				Node* tmp = node->left;
+				delete node;
+				return tmp;
+			}
+			Node* tmp = MinKeyLeft(node->right);
+			node->item = tmp->item;
+			node->right = Remove(node->right, tmp->item.key);
 		}
 
 		return node;
